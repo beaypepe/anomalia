@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="ANOMALIA.EXE — Juego de Realidad Alternativa (ARG) de Geocaching. Restaura el sistema. Recalibra las coordenadas." />
+  <title>ANOMALIA.EXE // Acceso HQ</title>
+
+  <!-- Favicon terminal -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='black'/%3E%3Ctext x='8' y='44' font-family='monospace' font-size='36' fill='%2300FF41'%3E%3E_%3C/text%3E%3C/svg%3E" />
+
+  <!-- Tipografía retro monoespaciada -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Capas CRT: scanlines + viñeta + barrido (solo CSS) -->
+  <div class="crt-scanlines" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
+  <div class="crt-sweep" aria-hidden="true"></div>
+
+  <!-- Barra de estado superior -->
+  <header class="hud" role="banner">
+    <div class="hud-inner">
+      <span class="hud-left"><span class="dot" aria-hidden="true"></span> OAN · ENLACE SEGURO</span>
+      <span class="hud-right"><span id="hud-clock">--:--:--</span> · L1 <span id="hud-level">NIVEL 0/4</span></span>
+    </div>
+  </header>
+
+  <main class="terminal" id="terminal">
+    <!-- ============ VISTA 0 · LOGIN ============ -->
+    <section class="view is-active" id="view-0" aria-labelledby="v0-title" data-level="NIVEL 0/4">
+      <div class="ascii" aria-hidden="true">╔══════════════════════════════╗
+║  OAN // SERVIDOR HQ v6.2.1   ║
+║  CANAL CIFRADO · ACCESO      ║
+║  RESTRINGIDO                 ║
+╚══════════════════════════════╝</div>
+
+      <h1 class="prompt" id="v0-title">
+        <span class="prompt-mark">&gt;</span> INTRODUZCA CÓDIGO DE ANULACIÓN<span class="cursor" aria-hidden="true">█</span>
+      </h1>
+
+      <form id="login-form" class="stack" autocomplete="off" novalidate>
+        <label class="sr-only" for="override-code">Código de anulación</label>
+        <input
+          id="override-code"
+          class="input"
+          type="text"
+          name="override-code"
+          placeholder="código…"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          enterkeyhint="go"
+          inputmode="text"
+        />
+        <button type="submit" class="btn">[ ENTER ]</button>
+        <p class="error blink-fast" id="login-error" role="alert" hidden>✕ ACCESO DENEGADO</p>
+        <p class="hint">PISTA: los geocachers lo susurran en el bar…</p>
+      </form>
+
+      <p class="syslog">sys.log :: esperando handshake…<br />sys.log :: verificación biométrica omitida…</p>
+    </section>
+
+    <!-- ============ VISTA 1 · DOCUMENTO CLASIFICADO ============ -->
+    <section class="view" id="view-1" aria-labelledby="v1-title" data-level="NIVEL 1/4" hidden>
+      <p class="crumb">&gt; login OK · montando /root …</p>
+      <h2 class="title" id="v1-title">[ DIRECTORIO RAÍZ: INFORME_REFRACCION_L1.txt ]</h2>
+
+      <article class="doc" aria-label="Informe clasificado">
+        <div class="doc-head">
+          <span class="stamp">TOP SECRET</span>
+          <span class="doc-org">OBSERVATORIO ASTRONÓMICO NACIONAL</span>
+        </div>
+        <dl class="doc-meta">
+          <div><dt>FECHA:</dt><dd>23 SEPTIEMBRE 2026</dd></div>
+          <div><dt>ASUNTO:</dt><dd>Anomalía Gravitatoria y Fallo GPS</dd></div>
+        </dl>
+        <hr class="doc-rule" />
+        <p><span class="hl">CONFIDENCIAL:</span> La singularidad de hoy fundirá los receptores civiles de la señal L1. Para evitar el pánico público y mantener el control sobre los geocachers, hemos adelantado la fecha oficial del equinoccio al día 21.</p>
+        <p>Debemos mantener el encubrimiento bajo el nombre en clave: <span class="hl">OPERACION EQUINOCCIO</span>.</p>
+        <p>Que nadie se entere de la verdad.</p>
+        <p class="doc-sign">— firmado: DIR. OAN · hash #8F-22-L1 <span class="cursor" aria-hidden="true">█</span></p>
+      </article>
+
+      <div class="stack">
+        <button class="btn" data-goto="view-2">[ CONTINUAR AL ESCÁNER DE SATÉLITES ]</button>
+      </div>
+    </section>
+
+    <!-- ============ VISTA 2 · ESCÁNER DE SATÉLITES ============ -->
+    <section class="view" id="view-2" aria-labelledby="v2-title" data-level="NIVEL 2/4" hidden>
+      <p class="crumb">&gt; informe leído · abriendo radar orbital …</p>
+      <h2 class="title" id="v2-title">&gt; RADAR DE SATÉLITES ACTIVO<span class="cursor" aria-hidden="true">█</span></h2>
+
+      <div class="radar" aria-hidden="true">
+        <div class="radar-sweep"></div>
+        <div class="radar-ring r1"></div>
+        <div class="radar-ring r2"></div>
+        <div class="radar-ring r3"></div>
+        <div class="radar-blip b1"></div>
+        <div class="radar-blip b2"></div>
+        <div class="radar-blip b3 alert"></div>
+      </div>
+
+      <p class="hint">TOCA CADA SATÉLITE PARA ESCANEAR SU SEÑAL L1. HAY UNO QUE NO CUADRA… <span id="scan-count" class="hl">0/5</span></p>
+
+      <div class="sat-list" role="list">
+        <div class="sat" role="listitem">
+          <button class="sat-head" aria-expanded="false" aria-controls="sat-43-body" data-sat="NAVSTAR-43">
+            <span class="sat-led" aria-hidden="true"></span>
+            <span class="sat-name">NAVSTAR-43</span>
+            <span class="sat-toggle" aria-hidden="true">[+]</span>
+          </button>
+          <div class="sat-body" id="sat-43-body" hidden>
+            <p class="ok">ESTADO: SEÑAL L1 OK</p>
+          </div>
+        </div>
+
+        <div class="sat" role="listitem">
+          <button class="sat-head" aria-expanded="false" aria-controls="sat-44-body" data-sat="NAVSTAR-44">
+            <span class="sat-led" aria-hidden="true"></span>
+            <span class="sat-name">NAVSTAR-44</span>
+            <span class="sat-toggle" aria-hidden="true">[+]</span>
+          </button>
+          <div class="sat-body" id="sat-44-body" hidden>
+            <p class="ok">ESTADO: SEÑAL L1 OK</p>
+          </div>
+        </div>
+
+        <div class="sat" role="listitem">
+          <button class="sat-head" aria-expanded="false" aria-controls="sat-45-body" data-sat="NAVSTAR-45">
+            <span class="sat-led" aria-hidden="true"></span>
+            <span class="sat-name">NAVSTAR-45</span>
+            <span class="sat-toggle" aria-hidden="true">[+]</span>
+          </button>
+          <div class="sat-body" id="sat-45-body" hidden>
+            <p class="ok">ESTADO: SEÑAL L1 OK</p>
+          </div>
+        </div>
+
+        <div class="sat" role="listitem">
+          <button class="sat-head" aria-expanded="false" aria-controls="sat-46-body" data-sat="NAVSTAR-46">
+            <span class="sat-led" aria-hidden="true"></span>
+            <span class="sat-name">NAVSTAR-46</span>
+            <span class="sat-toggle" aria-hidden="true">[+]</span>
+          </button>
+          <div class="sat-body" id="sat-46-body" hidden>
+            <p class="ok">ESTADO: SEÑAL L1 OK</p>
+          </div>
+        </div>
+
+        <div class="sat sat--rogue" role="listitem">
+          <button class="sat-head" aria-expanded="false" aria-controls="sat-47-body" data-sat="NAVSTAR-47">
+            <span class="sat-led" aria-hidden="true"></span>
+            <span class="sat-name">NAVSTAR-47</span>
+            <span class="sat-toggle" aria-hidden="true">[+]</span>
+          </button>
+          <div class="sat-body" id="sat-47-body" hidden>
+            <p class="alert blink-fast">ESTADO: SEÑAL L1 CORRUPTA - DESVIACIÓN DETECTADA</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack reveal" id="intercept-wrap" hidden>
+        <p class="alert-line">⚠ ANOMALÍA AISLADA EN NAVSTAR-47 · CANAL SOSPECHOSO ABIERTO</p>
+        <button class="btn btn--danger" data-goto="view-3">[ INTERCEPTAR COMUNICACIONES ]</button>
+      </div>
+    </section>
+
+    <!-- ============ VISTA 3 · CHAT INTERCEPTADO ============ -->
+    <section class="view" id="view-3" aria-labelledby="v3-title" data-level="NIVEL 3/4" hidden>
+      <p class="crumb">&gt; señal corrupta aislada · pinchando canal …</p>
+      <h2 class="title" id="v3-title">&gt; COMUNICACIONES INTERCEPTADAS<span class="cursor" aria-hidden="true">█</span></h2>
+      <p class="hint">CANAL: <span class="hl">#HQ-INTERNO</span> · CIFRADO ROTO · <span id="chat-count" class="hl">0/5</span> MENSAJES</p>
+
+      <div class="chat" id="chat" aria-live="polite" aria-label="Chat interceptado">
+        <div class="msg left" data-msg>
+          <p class="msg-sender">Técnico HQ</p>
+          <p class="msg-text">¡Tenemos una brecha! Suso Tallarico se ha dado cuenta de la anomalía.</p>
+          <p class="msg-time">23:41:07</p>
+        </div>
+        <div class="msg right" data-msg>
+          <p class="msg-sender">Agente OAN</p>
+          <p class="msg-text">Imposible. Lo tenemos vigilado en el Bar París sirviendo bebidas.</p>
+          <p class="msg-time">23:41:31</p>
+        </div>
+        <div class="msg left" data-msg>
+          <p class="msg-sender">Técnico HQ</p>
+          <p class="msg-text">¡No es una broma! Ha creado un parche algorítmico para corregir las coordenadas locales y evitar nuestro bloqueo.</p>
+          <p class="msg-time">23:42:02</p>
+        </div>
+        <div class="msg right" data-msg>
+          <p class="msg-sender">Agente OAN</p>
+          <p class="msg-text">¡Encuentra ese código y bórralo! ¿Dónde lo escondió?</p>
+          <p class="msg-time">23:42:19</p>
+        </div>
+        <div class="msg left" data-msg>
+          <p class="msg-sender">Técnico HQ</p>
+          <p class="msg-text">Lo coló en nuestro propio servidor. Le ha puesto de nombre <span class="hl">ANOMALIA.EXE</span>. Si los geocachers lo ejecutan, el encubrimiento se va al traste.</p>
+          <p class="msg-time">23:42:55</p>
+        </div>
+      </div>
+
+      <div class="stack reveal" id="emergency-wrap" hidden>
+        <button class="btn" data-goto="view-4">[ ACCEDER AL TERMINAL DE EMERGENCIA ]</button>
+      </div>
+    </section>
+
+    <!-- ============ VISTA 4 · RESTAURACIÓN ============ -->
+    <section class="view" id="view-4" aria-labelledby="v4-title" data-level="NIVEL 4/4" hidden>
+      <p class="crumb">&gt; ANOMALIA.EXE localizado en /root …</p>
+
+      <div class="alert-frame">
+        <p class="alert-banner blink-slow" aria-hidden="true">⚠ ALERTA DEL SISTEMA ⚠</p>
+        <h2 class="title title--big" id="v4-title">&gt; EJECUTAR ANOMALIA.EXE</h2>
+        <p class="prompt-sub">INTRODUZCA INSTANTE EQUINOCCIAL EXACTO (t_eq) PARA COMPILAR EL PARCHE RELATIVISTA:</p>
+
+        <form id="override-form" class="stack" autocomplete="off" novalidate>
+          <label class="sr-only" for="teq">Instante equinoccial exacto</label>
+          <!-- type=text + inputmode=decimal: invoca el teclado numérico en móvil y permite validar el decimal exacto -->
+          <input
+            id="teq"
+            class="input input--center"
+            type="text"
+            name="teq"
+            placeholder="t_eq = ___.____"
+            inputmode="decimal"
+            enterkeyhint="go"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <button type="submit" class="btn btn--danger btn--big">[ OVERRIDE ]</button>
+          <p class="error" id="override-error" role="alert" hidden>✕ VALOR INCORRECTO. FALLO DE COMPILACIÓN.</p>
+        </form>
+      </div>
+
+      <p class="hint">PISTA: 4 decimales. El instante que el OAN quiso enterrar.</p>
+    </section>
+
+    <!-- ============ VICTORIA ============ -->
+    <section class="view view--center" id="view-victory" aria-labelledby="victory-title" data-level="SISTEMA OK" hidden>
+      <div class="victory-box">
+        <p class="ascii" aria-hidden="true">[▓▓▓▓▓▓▓▓▓▓] 100%</p>
+        <h2 class="victory blink-slow" id="victory-title">
+          &gt; SISTEMA RESTAURADO.<br />
+          &gt; COORDENADAS RECALIBRADAS.<br />
+          &gt; LA CONSPIRACIÓN HA CAÍDO.
+        </h2>
+        <p class="syslog">ANOMALIA.EXE :: parche compilado OK<br />GPS-L1 :: señal nominal · equinoccio real = 23 SEPT</p>
+        <div class="stack">
+          <button class="btn btn--ghost" data-goto="view-0" id="restart-btn">[ REINICIAR SISTEMA ]</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>ANOMALIA.EXE · ARG de geocaching · 100% client-side · sin rastros en el servidor</p>
+  </footer>
+
+  <noscript>
+    <div class="noscript">⚠ ESTA TERMINAL NECESITA JAVASCRIPT PARA OPERAR. ACTÍVALO Y REINTENTA.</div>
+  </noscript>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
