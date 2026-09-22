@@ -299,6 +299,29 @@ img, svg, video, canvas, pre, table { max-width: 100%; }
 }
 .input--center { text-align: center; letter-spacing: 1px; }
 
+/* ---------- Cursor decorativo en el cuadro de login ---------- */
+/* Bloque parpadeante sobre el input vacío y sin foco: deja claro dónde
+   hay que escribir (el título de encima termina en ":" apuntando aquí).
+   Se oculta al enfocar (el cursor real toma el relevo) o al haber texto.
+   El placeholder=" " (espacio) permite detectar "vacío" solo con CSS. */
+.input-shell { position: relative; min-width: 0; }
+.input-shell .fake-caret {
+  position: absolute;
+  left: 18px; /* borde 2px + padding 16px: alineado con el texto del input */
+  top: 50%;
+  transform: translateY(-50%);
+  display: none; /* oculto por defecto: fallback si el navegador no soporta :has() */
+  font-size: 26px; /* igual que .input */
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.55);
+  pointer-events: none; /* los toques pasan al input que hay debajo */
+}
+.input-shell:has(input:placeholder-shown:not(:focus)) .fake-caret {
+  display: block;
+  animation: blink 1s steps(2, start) infinite; /* mismo ritmo que .cursor */
+}
+
 .btn {
   width: 100%;
   max-width: 100%;

@@ -41,24 +41,28 @@
       </div>
 
       <h1 class="prompt" id="v0-title">
-        <span class="prompt-mark">&gt;</span> INTRODUZCA CÓDIGO DE ANULACIÓN<span class="cursor" aria-hidden="true">█</span>
+        <span class="prompt-mark">&gt;</span> INTRODUZCA CÓDIGO DE ANULACIÓN:
       </h1>
 
       <form id="login-form" class="stack" autocomplete="off" novalidate>
         <label class="sr-only" for="override-code">Código de anulación</label>
-        <input
-          id="override-code"
-          class="input"
-          type="text"
-          name="override-code"
-          placeholder="código…"
-          autocapitalize="off"
-          autocomplete="off"
-          autocorrect="off"
-          spellcheck="false"
-          enterkeyhint="go"
-          inputmode="text"
-        />
+        <!-- .input-shell: cursor parpadeante decorativo sobre el cuadro vacío (ver style.css) -->
+        <div class="input-shell">
+          <input
+            id="override-code"
+            class="input"
+            type="text"
+            name="override-code"
+            placeholder=" "
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="go"
+            inputmode="text"
+          />
+          <span class="fake-caret" aria-hidden="true">█</span>
+        </div>
         <button type="submit" class="btn">[ ENTER ]</button>
         <p class="error blink-fast" id="login-error" role="alert" hidden>✕ ACCESO DENEGADO</p>
         <p class="hint">PISTA: los geocachers lo susurran en el bar…</p>
