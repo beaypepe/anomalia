@@ -1,12 +1,25 @@
 /* ============================================================
    ANOMALIA.EXE · Lógica 100% client-side (sin backend)
-   Vistas: 0 login → 1 informe → 2 radar → 3 chat → 4 override
+   Vistas: 0 login → 1 informe → 2 radar → 3 chat → 4 override → victoria
+   Cada transición entre vistas exige introducir una clave
+   (normalizada: minúsculas y sin tildes, indistintamente).
    ============================================================ */
 (function () {
   "use strict";
 
-  var LOGIN_CODE = "tensor";   // case-insensitive
-  var TEQ_EXACT = "266.0868";  // comparación exacta (normalizando coma → punto)
+  var LOGIN_CODE = "tensor";          // clave inicial (normalizada al comparar)
+  var TEQ_EXACT = "266.0868";         // comparación exacta (normalizando coma → punto)
+  var UNLOCK_CODE = "OAN-OVERRIDE";   // código de desbloqueo de Adventure Lab
+
+  /* Normalización de claves: minúsculas, sin tildes/acentos, sin bordes.
+     Así "ANOMALÍA", "anomalia", "Anomalía"… son todas equivalentes. */
+  function normalizeKey(raw) {
+    return String(raw == null ? "" : raw)
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
 
   var hudClock = document.getElementById("hud-clock");
   var hudLevel = document.getElementById("hud-level");
@@ -68,7 +81,7 @@
     window.setTimeout(activate, 220);
   }
 
-  // Botones genéricos [ data-goto="view-X" ]
+  // Botones genéricos [ data-goto="view-X" ] (solo el reinicio de victoria)
   document.addEventListener("click", function (ev) {
     var btn = ev.target.closest("[data-goto]");
     if (btn) {
@@ -77,6 +90,50 @@
       showView(btn.getAttribute("data-goto"));
     }
   });
+
+  /* ---------- Compuertas de clave entre vistas ---------- */
+  // Botón [ data-keygate="id-form" ] → oculta el botón y revela su formulario
+  document.addEventListener("click", function (ev) {
+    var trigger = ev.target.closest("[data-keygate]");
+    if (!trigger) return;
+    ev.preventDefault();
+    var form = document.getElementById(trigger.getAttribute("data-keygate"));
+    if (!form) return;
+    trigger.hidden = true;
+    form.hidden = false;
+    var input = form.querySelector("input");
+    if (input) {
+      try { input.focus({ preventScroll: true }); } catch (e) { try { input.focus(); } catch (e2) { /* noop */ } }
+      try { form.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e3) { /* noop */ }
+    }
+  });
+
+  // Validación genérica: todo <form data-key data-target> avanza si la clave coincide
+  Array.prototype.slice
+    .call(document.querySelectorAll("form[data-key]"))
+    .forEach(function (form) {
+      var input = form.querySelector("input");
+      var errorEl = form.querySelector(".error");
+      if (!input) return;
+
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        if (normalizeKey(input.value) === normalizeKey(form.getAttribute("data-key"))) {
+          if (errorEl) errorEl.hidden = true;
+          showView(form.getAttribute("data-target"));
+        } else {
+          if (errorEl) errorEl.hidden = false;
+          form.classList.remove("shake");
+          void form.offsetWidth; // reinicia animación
+          form.classList.add("shake");
+          input.select();
+        }
+      });
+
+      input.addEventListener("input", function () {
+        if (errorEl && !errorEl.hidden) errorEl.hidden = true;
+      });
+    });
 
   /* ---------- VISTA 0 · Login ---------- */
   var loginForm = document.getElementById("login-form");
@@ -94,8 +151,7 @@
   if (loginForm) {
     loginForm.addEventListener("submit", function (ev) {
       ev.preventDefault();
-      var value = (loginInput.value || "").trim().toLowerCase();
-      if (value === LOGIN_CODE) {
+      if (normalizeKey(loginInput.value) === normalizeKey(LOGIN_CODE)) {
         loginError.hidden = true;
         showView("view-1");
       } else {
@@ -213,7 +269,7 @@
   var overrideError = document.getElementById("override-error");
 
   function normalizeTeq(raw) {
-    return (raw || "").trim().replace(/\s+/g, "").replace(",", ".");
+    return (raw || "").trim().replace(/\s+/g, "").replace(/,/g, ".");
   }
 
   if (overrideForm) {
@@ -233,6 +289,43 @@
     });
     teqInput.addEventListener("input", function () {
       if (!overrideError.hidden) overrideError.hidden = true;
+    });
+  }
+
+  /* ---------- Victoria · código de desbloqueo (clic = copiar) ---------- */
+  var unlockBtn = document.getElementById("unlock-code");
+  if (unlockBtn) {
+    unlockBtn.addEventListener("click", function () {
+      var state = document.getElementById("unlock-state");
+      var idleText = "[ PULSA PARA COPIAR ]";
+
+      function flashCopied() {
+        if (state) state.textContent = "✓ COPIADO AL PORTAPAPELES";
+        unlockBtn.classList.add("is-copied");
+        window.setTimeout(function () {
+          if (state) state.textContent = idleText;
+          unlockBtn.classList.remove("is-copied");
+        }, 2000);
+      }
+
+      function manualCopy() {
+        try {
+          var valueEl = document.getElementById("unlock-value");
+          var range = document.createRange();
+          range.selectNodeContents(valueEl);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          if (document.execCommand) document.execCommand("copy");
+        } catch (e) { /* noop */ }
+        flashCopied();
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(UNLOCK_CODE).then(flashCopied, manualCopy);
+      } else {
+        manualCopy();
+      }
     });
   }
 
@@ -259,6 +352,19 @@
     });
     chatMessages.forEach(function (m) { m.classList.remove("is-visible"); });
     if (chatCount) chatCount.textContent = "0/" + chatMessages.length;
+    // Restaurar las compuertas de clave: botones visibles, formularios ocultos
+    Array.prototype.slice
+      .call(document.querySelectorAll("form[data-key]"))
+      .forEach(function (form) {
+        form.hidden = true;
+        form.classList.remove("shake");
+        var input = form.querySelector("input");
+        if (input) input.value = "";
+        var err = form.querySelector(".error");
+        if (err) err.hidden = true;
+        var trigger = document.querySelector('[data-keygate="' + form.id + '"]');
+        if (trigger) trigger.hidden = false;
+      });
   }
 
   setLevel(currentView);

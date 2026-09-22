@@ -89,7 +89,25 @@
       </article>
 
       <div class="stack">
-        <button class="btn" data-goto="view-2">[ CONTINUAR AL ESCÁNER DE SATÉLITES ]</button>
+        <button type="button" class="btn" data-keygate="keygate-1">[ CONTINUAR AL ESCÁNER DE SATÉLITES ]</button>
+        <form id="keygate-1" class="stack keygate" data-key="equinoccio2026" data-target="view-2" autocomplete="off" novalidate hidden>
+          <label class="sr-only" for="keygate-1-input">Clave de enlace</label>
+          <input
+            id="keygate-1-input"
+            class="input"
+            type="text"
+            name="keygate-1"
+            placeholder="clave de enlace…"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="go"
+            inputmode="text"
+          />
+          <button type="submit" class="btn">[ ENTER ]</button>
+          <p class="error" role="alert" hidden>✕ CLAVE INVÁLIDA · ENLACE BLOQUEADO</p>
+        </form>
       </div>
     </section>
 
@@ -169,7 +187,25 @@
 
       <div class="stack reveal" id="intercept-wrap" hidden>
         <p class="alert-line">⚠ ANOMALÍA AISLADA EN NAVSTAR-47 · CANAL SOSPECHOSO ABIERTO</p>
-        <button class="btn btn--danger" data-goto="view-3">[ INTERCEPTAR COMUNICACIONES ]</button>
+        <button type="button" class="btn btn--danger" data-keygate="keygate-2">[ INTERCEPTAR COMUNICACIONES ]</button>
+        <form id="keygate-2" class="stack keygate" data-key="NAVSTAR" data-target="view-3" autocomplete="off" novalidate hidden>
+          <label class="sr-only" for="keygate-2-input">Clave de autorización</label>
+          <input
+            id="keygate-2-input"
+            class="input"
+            type="text"
+            name="keygate-2"
+            placeholder="clave de autorización…"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="go"
+            inputmode="text"
+          />
+          <button type="submit" class="btn btn--danger">[ ENTER ]</button>
+          <p class="error" role="alert" hidden>✕ CLAVE INVÁLIDA · AUTORIZACIÓN DENEGADA</p>
+        </form>
       </div>
     </section>
 
@@ -208,7 +244,25 @@
       </div>
 
       <div class="stack reveal" id="emergency-wrap" hidden>
-        <button class="btn" data-goto="view-4">[ ACCEDER AL TERMINAL DE EMERGENCIA ]</button>
+        <button type="button" class="btn" data-keygate="keygate-3">[ ACCEDER AL TERMINAL DE EMERGENCIA ]</button>
+        <form id="keygate-3" class="stack keygate" data-key="ANOMALIA" data-target="view-4" autocomplete="off" novalidate hidden>
+          <label class="sr-only" for="keygate-3-input">Clave de emergencia</label>
+          <input
+            id="keygate-3-input"
+            class="input"
+            type="text"
+            name="keygate-3"
+            placeholder="clave de emergencia…"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="go"
+            inputmode="text"
+          />
+          <button type="submit" class="btn">[ ENTER ]</button>
+          <p class="error" role="alert" hidden>✕ CLAVE INVÁLIDA · TERMINAL INACCESIBLE</p>
+        </form>
       </div>
     </section>
 
@@ -255,6 +309,11 @@
           &gt; LA CONSPIRACIÓN HA CAÍDO.
         </h2>
         <p class="syslog">ANOMALIA.EXE :: parche compilado OK<br />GPS-L1 :: señal nominal · equinoccio real = 23 SEPT</p>
+        <button type="button" class="unlock" id="unlock-code" aria-label="Código de desbloqueo: OAN-OVERRIDE. Pulsa para copiar.">
+          <span class="unlock-label">CÓDIGO DE DESBLOQUEO</span>
+          <span class="unlock-value" id="unlock-value">OAN-OVERRIDE</span>
+          <span class="unlock-state" id="unlock-state">[ PULSA PARA COPIAR ]</span>
+        </button>
         <div class="stack">
           <button class="btn btn--ghost" data-goto="view-0" id="restart-btn">[ REINICIAR SISTEMA ]</button>
         </div>
