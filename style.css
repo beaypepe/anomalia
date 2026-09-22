@@ -184,6 +184,28 @@ img, svg, video, canvas, pre, table { max-width: 100%; }
   margin: 4px 0 18px;
 }
 
+/* ---------- Banner de cabecera (login) · caja con bordes CSS ---------- */
+.boot-banner {
+  border: 4px double var(--green);
+  border-radius: 8px;
+  margin: 4px 0 18px;
+  padding: 12px 16px;
+  text-align: center;
+  background: rgba(0, 255, 65, 0.05);
+  box-shadow: 0 0 16px rgba(0, 255, 65, 0.18), inset 0 0 20px rgba(0, 255, 65, 0.06);
+  max-width: 100%;
+}
+.boot-banner p {
+  margin: 4px 0;
+  font-size: clamp(20px, 6vw, 26px);
+  letter-spacing: 1px;
+  overflow-wrap: break-word;
+}
+.boot-banner p:first-child { margin-top: 0; }
+.boot-banner p:last-child { margin-bottom: 0; }
+
+
+
 .prompt {
   /* Fluido: cabe siempre sin scroll horizontal */
   font-size: clamp(24px, 7.5vw, 30px);
