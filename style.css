@@ -546,6 +546,62 @@ img, svg, video, canvas, pre, table { max-width: 100%; }
 }
 .victory-box .syslog { text-align: center; }
 
+/* ---------- Compuertas de clave (transiciones entre vistas) ---------- */
+.keygate[hidden] { display: none !important; }
+
+/* ---------- Victoria · código de desbloqueo (clic = copiar) ---------- */
+.unlock {
+  display: block;
+  width: 100%;
+  margin: 20px 0 8px;
+  padding: 16px 14px;
+  font-family: var(--font);
+  color: var(--green);
+  background: rgba(0, 255, 65, 0.06);
+  border: 2px dashed var(--green);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 0 18px rgba(0, 255, 65, 0.18), inset 0 0 18px rgba(0, 255, 65, 0.05);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.unlock:hover { background: rgba(0, 255, 65, 0.12); }
+.unlock:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.unlock-label {
+  display: block;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  overflow-wrap: break-word;
+}
+.unlock-value {
+  display: block;
+  margin: 10px 0 6px;
+  padding: 8px 10px;
+  font-size: clamp(28px, 8.5vw, 40px);
+  letter-spacing: 4px;
+  color: var(--green);
+  background: var(--green-faint);
+  border: 1px solid rgba(0, 255, 65, 0.5);
+  border-radius: 6px;
+  user-select: all;
+  overflow-wrap: anywhere;
+}
+.unlock-state {
+  display: block;
+  font-size: 17px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  opacity: 0.8;
+  overflow-wrap: break-word;
+}
+.unlock.is-copied {
+  background: rgba(0, 255, 65, 0.16);
+  box-shadow: 0 0 28px rgba(0, 255, 65, 0.45), inset 0 0 18px rgba(0, 255, 65, 0.08);
+}
+
 /* ---------- Footer ---------- */
 .foot {
   border-top: 1px solid rgba(0, 255, 65, 0.3);
